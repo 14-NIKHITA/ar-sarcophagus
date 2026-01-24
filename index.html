@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ancient Egyptian Sarcophagus AR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Model Viewer -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: Arial, sans-serif;
+    }
+
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background: #0d6efd;
+      color: white;
+    }
+
+    button:hover {
+      background: #084298;
+    }
+  </style>
+</head>
+
+<body>
+
+  <model-viewer
+  src="model/sarcophagus.glb"
+  ar
+  ar-modes="scene-viewer webxr quick-look"
+  camera-controls
+  autoplay
+  shadow-intensity="1"
+  exposure="1.1"
+  environment-image="neutral"
+  alt="Ancient Egyptian Sarcophagus">
+</model-viewer>
+
+
+  <div class="controls">
+    <button onclick="playNarration()">Play Narration</button>
+    <button onclick="stopNarration()">Stop</button>
+  </div>
+
+  <script>
+    let speech;
+
+    function playNarration() {
+      stopNarration();
+
+      const text = `
+      This is an ancient Egyptian sarcophagus.
+      Sarcophagi were stone or wooden coffins used in ancient Egypt
+      to hold and protect the bodies of important individuals,
+      especially pharaohs and nobles.
+
+      They were commonly found inside tombs
+      in locations such as the Valley of the Kings.
+      The detailed carvings and hieroglyphs
+      were believed to protect the soul
+      and guide it safely to the afterlife.
+      `;
+
+      speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US";
+      speech.rate = 0.9;
+      speech.pitch = 1;
+
+      window.speechSynthesis.speak(speech);
+    }
+
+    function stopNarration() {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+      }
+    }
+  </script>
+
+</body>
+</html>
